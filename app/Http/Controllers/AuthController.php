@@ -12,11 +12,17 @@ class AuthController extends Controller
             'name'     => 'required|string',
             'email'    => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed',
+            'apellido'      => 'required|string',
+            'cedula'     => 'required|integer',
+            'telefono'      => 'required|string'
         ]);
         $user = new User([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => bcrypt($request->password),
+            'apellido'  => $request->apellido,
+            'documento' => $request->cedula,
+            'telefono'    => $request->telefono
         ]);
         $user->save();
         return response()->json([
@@ -27,7 +33,7 @@ class AuthController extends Controller
         $request->validate([
             'email'       => 'required|string|email',
             'password'    => 'required|string',
-            'remember_me' => 'boolean',
+            'remember_me' => 'boolean'
         ]);
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
@@ -43,7 +49,7 @@ class AuthController extends Controller
         $token->save();
         return response()->json([
             'access_token' => $tokenResult->accessToken,
-            'token_type'   => 'Bearer',
+            'cedula' => $user->documento,
             'expires_at'   => Carbon::parse(
                 $tokenResult->token->expires_at)
                 ->toDateTimeString(),
