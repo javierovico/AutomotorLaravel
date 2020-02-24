@@ -12,11 +12,10 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 Route::group(['middleware' => ['json.response']], function () {
-
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login', 'AuthController@login');
         Route::post('signup', 'AuthController@signup');
@@ -26,5 +25,13 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::get('user', 'AuthController@user');
         });
     });
+    Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
+        Route::group(['middleware' => 'permiso:registrar_venta'],function(){ //los que tienen permiso de realizar ventas
+            Route::post('venta','VentaController@registrarVenta');
+        });
+    });
 
+//    Route::group(['middleware' => 'auth:api'], function() {
+//        Route::post('venta',['middleware' => 'permiso:registrar_venta','VentaController@store']);
+//    });
 });
