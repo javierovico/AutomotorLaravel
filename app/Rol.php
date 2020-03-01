@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rol extends Model
 {
+    public static $ROL_VISITANTE_ID = 4;
     protected $fillable = ['nombre'];
 
     public function permisos(){

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Rol;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed',
             'apellido'      => 'required|string',
             'cedula'     => 'required|integer',
-            'telefono'      => 'required|string'
+            'telefono'      => 'required|string',
         ]);
         $user = new User([
             'name'     => $request->name,
@@ -22,7 +23,8 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'apellido'  => $request->apellido,
             'documento' => $request->cedula,
-            'telefono'    => $request->telefono
+            'telefono'    => $request->telefono,
+            'rol_id'        =>  Rol::$ROL_VISITANTE_ID,      //por defecto: comprador
         ]);
         $user->save();
         return response()->json([
@@ -53,6 +55,7 @@ class AuthController extends Controller
             'expires_at'   => Carbon::parse(
                 $tokenResult->token->expires_at)
                 ->toDateTimeString(),
+            'rol_id'    => $user->rol_id
         ]);
     }
 
