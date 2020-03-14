@@ -23,6 +23,11 @@ Route::group(['middleware' => ['json.response']], function () {
         });
     });
     Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
+        Route::group(['middleware' => 'permiso:editar_rol_usuario'],function(){ //los que tienen permiso de
+            Route::post('editar-rol','RolController@cambiarRol');
+        });
+    });
+    Route::group(['middleware' => 'auth:api'], function() { //los que estan autenticados
         Route::group(['middleware' => 'permiso:registrar_venta'],function(){ //los que tienen permiso de realizar ventas
             Route::post('venta','VentaController@registrarVenta');
         });

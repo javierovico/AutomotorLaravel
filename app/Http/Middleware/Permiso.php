@@ -9,17 +9,18 @@ class Permiso
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param $nombrePermiso string
      * @return mixed
      */
-    public function handle($request, Closure $next, $nombrePermiso)
+    public function handle($request, Closure $next, string $nombrePermiso)
     {
         foreach($request->user()->rol->permisos as $permiso){
             if($permiso->nombre == $nombrePermiso){
                 return $next($request);
             }
         }
-        abort(403,['message'=>'sin permiso']);
+        abort(403,'sin permiso');
     }
 }

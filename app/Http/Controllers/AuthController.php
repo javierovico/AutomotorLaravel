@@ -14,7 +14,7 @@ class AuthController extends Controller
             'email'    => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed',
             'apellido'      => 'required|string',
-            'cedula'     => 'required|integer',
+            'documento'     => 'required|integer',
             'telefono'      => 'required|string',
         ]);
         $user = new User([
@@ -22,13 +22,13 @@ class AuthController extends Controller
             'email'    => $request->email,
             'password' => bcrypt($request->password),
             'apellido'  => $request->apellido,
-            'documento' => $request->cedula,
+            'documento' => $request->documento,
             'telefono'    => $request->telefono,
             'rol_id'        =>  Rol::$ROL_VISITANTE_ID,      //por defecto: comprador
         ]);
         $user->save();
         return response()->json([
-            'message' => 'Successfully created user!'], 201);
+            'message' => 'Successfully created user!'], 200);
     }
     public function login(Request $request)
     {

@@ -45,7 +45,7 @@ class CreateUsersTable extends Migration
             'vendedor'  =>  [1,4,5],
             'cajero'    =>  [1,7],
             'comprador' =>  [1,5,8],
-            'visitante' =>  [5,9]
+            'visitante' =>  [5]
         ];
         $rolAdminId = null;
         foreach ($permisos as $id=>$permiso) {
